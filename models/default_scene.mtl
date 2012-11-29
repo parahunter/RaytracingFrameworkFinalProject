@@ -1,0 +1,20 @@
+newmtl green
+Ka 0.01 0.07 0.00
+Kd 0.09 0.63 0.00
+Ks 0.00 0.00 0.00	
+illum 1
+map_Kd grass.jpg
+
+newmtl glas3
+Ka 0.0 0.0 0.0
+Kd 0.8 0.1 0.3
+Ks 0.3 0.3 0.3
+Ns 42
+Ni 1.5
+illum 12
+
+newmtl gray
+Ka 0.12 0.09 0.06
+Kd 0.28 0.21 0.14
+Ks 0.00 0.00 0.00
+illum 1

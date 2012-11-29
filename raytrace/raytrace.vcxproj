@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F176782B-BC33-42D4-B385-21B108B7F160}</ProjectGuid>
+    <RootNamespace>raytrace</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdparty\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\3rdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <OpenMPSupport>true</OpenMPSupport>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdparty\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="cdf_bsearch.h" />
+    <ClInclude Include="DiffuseAmbientOccluded.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="HitInfo.h" />
+    <ClInclude Include="ParticleTracer.h" />
+    <ClInclude Include="RayCaster.h" />
+    <ClInclude Include="RayTracer.h" />
+    <ClInclude Include="Tracer.h" />
+    <ClInclude Include="Emission.h" />
+    <ClInclude Include="Glossy.h" />
+    <ClInclude Include="GlossyVolume.h" />
+    <ClInclude Include="Lambertian.h" />
+    <ClInclude Include="Mirror.h" />
+    <ClInclude Include="Phong.h" />
+    <ClInclude Include="PhotonCaustics.h" />
+    <ClInclude Include="Reflectance.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Textured.h" />
+    <ClInclude Include="Transparent.h" />
+    <ClInclude Include="Volume.h" />
+    <ClInclude Include="AreaLight.h" />
+    <ClInclude Include="Directional.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="RenderEngine.h" />
+    <ClInclude Include="fresnel.h" />
+    <ClInclude Include="int_pow.h" />
+    <ClInclude Include="string_utils.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="mt_random.h" />
+    <ClInclude Include="Randomizer.h" />
+    <ClInclude Include="Object3D.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="Accelerator.h" />
+    <ClInclude Include="AccObj.h" />
+    <ClInclude Include="BspTree.h" />
+    <ClInclude Include="IndexedFaceSet.h" />
+    <ClInclude Include="obj_load.h" />
+    <ClInclude Include="ObjMaterial.h" />
+    <ClInclude Include="TriMesh.h" />
+    <ClInclude Include="Gamma.h" />
+    <ClInclude Include="ToneMap.h" />
+    <ClInclude Include="PhotonMap.h" />
+    <ClInclude Include="HDRTexture.h" />
+    <ClInclude Include="InvSphereMap.h" />
+    <ClInclude Include="SphereTexture.h" />
+    <ClInclude Include="Texture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DiffuseAmbientOccluded.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ParticleTracer.cpp" />
+    <ClCompile Include="RayCaster.cpp" />
+    <ClCompile Include="RayTracer.cpp" />
+    <ClCompile Include="Glossy.cpp" />
+    <ClCompile Include="GlossyVolume.cpp" />
+    <ClCompile Include="Lambertian.cpp" />
+    <ClCompile Include="Mirror.cpp" />
+    <ClCompile Include="Phong.cpp" />
+    <ClCompile Include="PhotonCaustics.cpp" />
+    <ClCompile Include="Textured.cpp" />
+    <ClCompile Include="Transparent.cpp" />
+    <ClCompile Include="Volume.cpp" />
+    <ClCompile Include="AreaLight.cpp" />
+    <ClCompile Include="Directional.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="RenderEngine.cpp" />
+    <ClCompile Include="string_utils.cpp" />
+    <ClCompile Include="Randomizer.cpp" />
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="Accelerator.cpp" />
+    <ClCompile Include="BspTree.cpp" />
+    <ClCompile Include="obj_load.cpp" />
+    <ClCompile Include="TriMesh.cpp" />
+    <ClCompile Include="Gamma.cpp" />
+    <ClCompile Include="HDRTexture.cpp" />
+    <ClCompile Include="InvSphereMap.cpp" />
+    <ClCompile Include="SphereTexture.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="raytrace.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SOIL\SOIL.vcxproj">
+      <Project>{98bc6d92-ab65-4f45-8f0c-6efe47f63016}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
