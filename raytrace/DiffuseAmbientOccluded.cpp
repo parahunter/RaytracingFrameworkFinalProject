@@ -3,7 +3,14 @@
 #include "HitInfo.h"
 #include "RayTracer.h"
 
+
+
 optix::float3 DiffuseAmbientOccluded::shade(const optix::Ray& r, HitInfo& hit, bool emit) const
+{
+	return doRejectionSampling(r, hit, emit);
+}
+
+optix::float3 DiffuseAmbientOccluded::doRejectionSampling(const optix::Ray& r, HitInfo& hit, bool emit) const
 {
 	/*
 	For each triangle {
@@ -21,53 +28,92 @@ optix::float3 DiffuseAmbientOccluded::shade(const optix::Ray& r, HitInfo& hit, b
   accessibility = numUnoccluded / numRays;
 
 */
+	float3 rho_a = get_emission(hit);
 	float3 rho_d = get_diffuse(hit);
 
 	float3 avgUoccluded = make_float3(0,0,0);
 	int numOfUnoccluded = 0;
 
-	int numOfRays = 1;
+	int numOfRays = 20;
 	for(int i = 0 ; i < numOfRays ; i++)
 	{
 		Ray hemiRay = r;
-		if(sampleHemisphere(hemiRay, hit, hit.shading_normal))
+		HitInfo hemiHit;
+		if(sampleHemisphere(hemiRay, hemiHit, hit))
 		{
 			avgUoccluded += hemiRay.direction;
-			++numOfUnoccluded;
+			numOfUnoccluded++;
 		}
 	}
 
-	float3 averageNormal = avgUoccluded / numOfUnoccluded;
-	float accessability = (float)numOfUnoccluded / numOfRays;
+	float3 averageNormal = normalize(avgUoccluded / numOfUnoccluded);
+	float accessability = ((float)numOfUnoccluded) / numOfRays;
 
-	//return make_float3(dot(hit.shading_normal, normalize(averageNormal))) * rho_d + Emission::shade(r, hit, emit);
+	//return make_float3(dot(hit.shading_normal, averageNormal));
+	
+	return M_1_PIf * accessability * rho_a;// + Lambertian::shade(r, hit, emit);// + Emission::shade(r, hit, emit);
 
-	return optix::make_float3(accessability);
 }
 
-bool DiffuseAmbientOccluded::sampleHemisphere(Ray& r, HitInfo& hit, float3& normal) const
+optix::float3 DiffuseAmbientOccluded::doMonteCarloSampling(const optix::Ray& r, HitInfo& hit, bool emit) const
+{
+	float3 rho_a = get_emission(hit);
+	float3 rho_d = get_diffuse(hit);
+
+	float3 avgUoccluded = make_float3(0,0,0);
+	int numOfUnoccluded = 0;
+
+	int hemicubeSize = 2;
+
+	float3 hemicubeZ = hit.shading_normal;
+	float3 hemicubeY = hit.shading_normal - project(hit.shading_normal, r.direction);
+	float3 hemicubeX = cross(hemicubeY, hemicubeZ);
+
+
+
+	float3 averageNormal = normalize(avgUoccluded / numOfUnoccluded);
+	float accessability = ((float)numOfUnoccluded) / numOfRays;
+
+	//return make_float3(dot(hit.shading_normal, averageNormal));
+	
+	return M_1_PIf * accessability * rho_a;// + Lambertian::shade(r, hit, emit);// + Emission::shade(r, hit, emit);
+}
+
+float3 project(float3 v, float3 w)
+{
+	return (dot(v, w) / dot(w, w)) * w;
+}
+
+bool DiffuseAmbientOccluded::sampleHemisphere(Ray& r, HitInfo& hemiHit, HitInfo& surfaceHit) const
 {
   // Sample ray direction and create ray
 	float x,y,z;
-	do
+	while(true)
 	{
 		x = randomizer.mt_random() * 2 - 1;
 		y = randomizer.mt_random() * 2 - 1;
 		z = randomizer.mt_random() * 2 - 1;
+
+		if(x*x + y*y + z*z > 1)
+			continue;
+
+		if(dot(make_float3(x,y,z), surfaceHit.shading_normal) < 0)
+			continue;
+
+		break;
 	}
-	while(x*x + y*y + z*z > 1 && dot(make_float3(x,y,z), normal) < 0);
 
 	float3 dir = normalize(make_float3(x, y, z));
-	
+
   // Trace ray
-	r.direction = hit.shading_normal;// dir;
-	r.origin = hit.position;
-	r.tmin = 0.00001f;
-	r.tmax = 100;
+	r.direction = dir;
+	r.origin = surfaceHit.position;
+	r.tmin = 0.001f;
+	r.tmax = 99999;
 
-	if (tracer -> trace_to_closest(r, hit))
+	if (tracer -> trace_to_any(r, hemiHit))
 		return false;
-
+	
   return true;
 }
 

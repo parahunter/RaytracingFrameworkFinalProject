@@ -18,7 +18,9 @@ public:
 
 private:
 	RayTracer* tracer;
-	bool DiffuseAmbientOccluded::sampleHemisphere(Ray& r, HitInfo& hit, float3& normal) const;
+	optix::float3 doRejectionSampling(const optix::Ray& r, HitInfo& hit, bool emit = true) const;
+	optix::float3 doMonteCarloSampling(const optix::Ray& r, HitInfo& hit, bool emit = true) const;
+	bool sampleHemisphere(Ray& r, HitInfo& hemiHit, HitInfo& surfaceHit) const;
 };
 
 
