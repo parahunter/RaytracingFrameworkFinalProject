@@ -37,8 +37,6 @@ bool Sphere::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) const
   //        (b) There is no need to handle the case where the 
   //            discriminant is zero separately.
 
-
-
 	float bDiv2 = optix::dot( (r.origin - center) , r.direction );
 	float c = optix::dot( (r.origin - center),  (r.origin - center));
 	c += - radius*radius;
@@ -65,7 +63,7 @@ bool Sphere::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) const
 			hit.has_hit = true;
 			hit.position = r.origin + r.direction*t2;
 			hit.geometric_normal = -optix::normalize(hit.position - center); // (the normalized normal of the plane)
-			hit.shading_normal = hit.geometric_normal;   //   (the normalized normal of the plane)
+			hit.shading_normal = -hit.geometric_normal;   //   (the normalized normal of the plane)
 			hit.material = &material;             //      (pointer to the material of the plane)
 			hit.dist = t2;
 
