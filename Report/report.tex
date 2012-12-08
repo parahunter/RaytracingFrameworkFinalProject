@@ -1,0 +1,78 @@
+\documentclass[12pt, twoside,a4paper]{report}
+\oddsidemargin = 10pt
+\textwidth = 430pt
+
+\usepackage{fullpage}	 %to make smaller margins
+\usepackage{graphicx}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{url}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphicx}
+%\usepackage{caption}
+\usepackage{subfig}
+\usepackage{enumerate}
+\usepackage{listings} %for showing program code
+
+\lstset{backgroundcolor={\color{white}}, %old formatting for program listings I used in my bachelor thesis ;)
+basicstyle={\bfseries\ttfamily\footnotesize},
+breakatwhitespace=false,
+breaklines=true,
+captionpos=b,
+columns=fullflexible,
+commentstyle={\color[rgb]{0.133,0.545,0.133}},
+escapeinside={\%*}{*)},
+fontadjust=true,
+frame=single,
+identifierstyle={\ttfamily},
+keywordstyle={\bfseries\ttfamily\color[rgb]{0,0,1}},
+language=C++,
+numbers=left,
+numbersep=5pt,
+numberstyle={\footnotesize},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+stepnumber=1,
+stringstyle={\ttfamily\color[rgb]{0.627,0.126,0.941}},
+tabsize=2}
+
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage{titlesec}	
+
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\setlength{\intextsep}{0pt} %to make wrapfigures beautiful
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{-0.5cm}
+
+\begin{document}
+
+
+\tableofcontents
+
+\chapter*{Introduction}
+
+\chapter{Motivation}
+\input{Motivation/Motivation.tex}
+
+\chapter{Theory}
+\input{Theory/Theory.tex}
+
+\chapter{Implementation}
+\input{Implementation/Implementation.tex}
+
+\chapter{Results \& Discussion}
+\input{Results/Results.tex}
+
+\chapter{Conclusion}
+\input{Conclusion/Conclusion.tex}
+
+\bibliographystyle{siam}
+%\bibliography{Bibliography/HCI}
+\bibliography{Bibliography/Alexanders,Bibliography/Jacubs}
+\end{document}
