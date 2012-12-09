@@ -8,6 +8,8 @@
 *.bbl
 *.blg
 *.gz
+*.log
+*.dvi
 
 #################
 ## Eclipse
