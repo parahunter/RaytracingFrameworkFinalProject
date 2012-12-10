@@ -5,6 +5,7 @@
 #include <optix_world.h>
 #include "HitInfo.h"
 #include "Lambertian.h"
+#include "DiffuseAmbientOccluded.h"
 
 using namespace optix;
 
@@ -16,7 +17,7 @@ using namespace optix;
 float3 Lambertian::shade(const Ray& r, HitInfo& hit, bool emit) const
 {
   float3 rho_d = get_diffuse(hit);
-  float3 result = make_float3(0.0f);
+  float3 result = make_float3(0);
   
   // Implement Lambertian reflection here.
   //

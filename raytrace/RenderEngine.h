@@ -64,7 +64,7 @@ public:
   void redo_display_list() { scene.redo_display_list(); }
   void draw_texture();
   void draw();
-
+  
   // GLUT callback functions
   static void display();
   static void reshape(int width, int height);
@@ -76,6 +76,8 @@ public:
   void set_current_shader(unsigned int shader);
   float get_focal_dist() { return cam.get_focal_dist(); }
   void set_focal_dist(float fd) { cam.set_focal_dist(fd); }
+  float3 get_background_color() { return background; }
+
 
 private:
   // Window and render resolution
