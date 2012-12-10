@@ -32,7 +32,7 @@ Then the expression becomes:
 \[ 
 L_o(\textbf{x},\overrightarrow{w}) = 
 L_e(\textbf{x},\overrightarrow{w}) +
-\int_{2\pi} \frac{ 
+\sum_{i=1}^N \frac{ 
 \frac{R_d}{\pi})L_i(\textbf{x},\overrightarrow{w}')\cos\theta dw'
 }
 {
@@ -49,13 +49,35 @@ The goal is therefore to find a sampling method that has this probability densit
 (\cos^{-1}\sqrt{r_1},2\pi r_2)
 \]
 Where r1 and r2 is random numbers between 0 and 1.
-When this sampling method is used and a visibility function denoted V is used to describe incident illumination the equation finaly becomes
+When this sampling method is used and a visibility function denoted V is used to describe incident illumination the equation finaly becomes:
 \[ 
 L_o(\textbf{x},\overrightarrow{w}) = 
-\frac{R_d}{N} \sum_{i=1}^N V(\overrightarrow{w}_i')
+\frac{1}{N}
+\sum_{i=1}^N \frac{ 
+\frac{R_d}{\pi})V(\textbf{x},\overrightarrow{w}')\cos\theta
+}
+{
+cos\theta / \pi
+}
 \]
-Where V is equal to 1 if the direction is unoccluded and 0 otherwise. In a raytracer this is normally done by casting N rays with origin in the surface point being sampled with a random direction in the point's hemisphere and divide the result by N. These
-\subsection{Disadvantages}
+
+\[ 
+L_o(\textbf{x},\overrightarrow{w}) = 
+\frac{1}{N}
+\sum_{i=1}^N
+R_d V(\textbf{x},\overrightarrow{w}')
+\]
+
+\[ 
+L_o(\textbf{x},\overrightarrow{w}) = 
+\frac{R_d}{N} \sum_{i=1}^N V(\textbf{x},\overrightarrow{w}')
+\]
+Where V is equal to 1 if the direction is unoccluded and 0 otherwise. In a raytracer this is normally done by casting N rays with origin in the surface point being sampled with a random direction in the point's hemisphere and divide the result by N.
+\subsection{Envirornment maps}
+
+\subsection{High Dynamic Range Imaging}
+
+\subsection{Disadvantages of Ambient Occlusion}
 The main problem with Ambient Occlusion is from the fact that it reduces the problem of finding incident light to using the calculated bent normal to do a texture lookup in an envirornment map. Since the bent normal is the average direction of incident light it can in certain cases point in a direction that is actually occluded as illustrated by figure:
 \\
 \begin{figure}[h]
@@ -65,10 +87,11 @@ The main problem with Ambient Occlusion is from the fact that it reduces the pro
 	\caption{The problem of using a bent normal Nb to find the irradiance at point P.}
 \end{figure}
 \\
-However since ambient occlusion is used to calculate the diffuse terms
-
-\subsection{Envirornment maps}
-
-\subsection{High Dynamic Range Imaging}
-
+However since ambient occlusion is used to calculate the diffuse term the lookup into the envirornment map is usually blured which means this error is not so noticable.
+\\ \\
 The next section will cover our implementation of Ambient Occlusion.
+
+\section{Extensions of the method}
+[Mendez et al. 2005; Bunnel
+2005].
+
