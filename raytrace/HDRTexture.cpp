@@ -42,5 +42,10 @@ float HDRTexture::convert(unsigned char c, int e)
 {
   // Implement the conversion from RGBE to floating point.
   // Note that 128 has already been subtracted from e.
-  return 0.0f;
+
+	//return (((float)c + .5) / 256) * pow(2.0f, e);
+	//if(e < 0)
+		//return 0;
+	
+	return powf( ((float)c + .5) * pow(2.0f, e - 8), 1.0f/3);
 }
