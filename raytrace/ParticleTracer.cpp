@@ -92,7 +92,6 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
   Ray r;
   HitInfo hit;
   float3 phi;
-	
 
   light -> emit(r, hit, phi);
 
@@ -110,15 +109,18 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
     case 11: // absorbing volume
     case 12: // absorbing glossy volume
       {
-		  float3 transmittance = get_transmittance(hit);
-		  float P = (transmittance.x + transmittance.y + transmittance.z ) / 3;
-
-		  if (mt_random() < P)
+    	  if(dot(r.direction, hit.shading_normal) > 0)
 		  {
-			phi *= transmittance / P;
+			  float3 transmittance = get_transmittance(hit);
+			  float P = (transmittance.x + transmittance.y + transmittance.z ) / 3;
+
+			  if (mt_random() < P)
+			  {
+		  		phi *= transmittance / P;
+			  }
+			  else
+				 return;
 		  }
-		  else
-			 return;
       }
     case 2:  // glossy materials
     case 4:  // transparent materials

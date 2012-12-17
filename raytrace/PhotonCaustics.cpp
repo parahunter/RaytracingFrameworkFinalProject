@@ -32,5 +32,6 @@ float3 PhotonCaustics::shade(const Ray& r, HitInfo& hit, bool emit) const
   
   float3 irradiance = tracer -> caustics_irradiance(hit, max_dist, photons);
   
-  return irradiance * rho_d + Lambertian :: shade(r, hit, emit);
+  //iradiance times diffuse reflectance times diffuse BRDF + diffuse light from direct illumination
+  return irradiance * rho_d * M_1_PIf + Lambertian :: shade(r, hit, emit);
 }
