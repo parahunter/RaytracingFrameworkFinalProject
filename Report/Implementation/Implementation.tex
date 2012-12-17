@@ -1,0 +1,39 @@
+\section{Ambient Occlusion Shader}
+
+To implement an ambient occlussion in the ray tracing framework, we created a new shader which can be found in  \texttt{Shaders\textbackslash{}DiffuseAmbientOccluded.cpp}. Later we implemented some functions that were needed to add usage of HDR environment maps to our solution. This chapter will explain how different  methods needed to achieve it were implemented.  
+
+%%%%% rejection %%%%%
+
+\subsection{Rejection Sampling}
+At first we implemented a basic ambient occlusion shader which uses simple rejection sampling method to generate rays 			to be traced from each point. The function called in \texttt{DiffuseAmbientOccluded::shade()} can be seen in Listing 		\autoref{lst:rejection} while Listing \autoref{lst:sampleHemi} shows the function \texttt{sampleHemisphere} responsible for rejection sampling itself. 
+
+\lstinputlisting[caption = {Ambient occlusion shader with rejection sampling.}, label = {lst:rejection}]{Implementation/rejection.cpp}
+
+The function in Listing \autoref{lst:rejection} shoots a number of rays over the hemisphere just as described in \cite{Gems17}. It calls the function from Listing \autoref{lst:sampleHemi} to sample directions on the hemisphere.
+
+\lstinputlisting[caption = {Rejection sampling.}, label = {lst:sampleHemi}]{Implementation/sampleHemi.cpp}
+
+%%%%% cosine %%%%%
+\subsection{Cosine Weighted Hemisphere}
+In order to improve performance of our solution we introduced a different method of sampling ray directions from a cosine weighted hemisphere instead of rejection sampling method used in previous subsection. This provides a much more efficient way of generating rays uniformly distributed over a hemisphere. The relevant code is shown in Listing \autoref{lst:sampleCosine}.
+
+\lstinputlisting[caption = {Cosine weighted hemisphere sampling}, label = {lst:sampleCosine}]{Implementation/sampleCosine.cpp}
+
+%%%%% environment %%%%%
+
+\section{Environment Sampling}
+The next part of our project is to add sampling of environment from envionment maps in form of spherical HDR textures. To do this we had to extend the framework to handle conversion from RGBE to RGBA color formats as well as implement the projection of direction to texture coordinates. Than we could use them in our ambient occlusion solution.
+
+%%%%% HDR %%%%%
+\subsection{HDR Image Conversion}
+The first part focuses on conversion of RGBE format used in HDR images to RGBA. This is done with the function from Listing \autoref{lst:convert}.
+\lstinputlisting[caption = {RGBE to RGBA conversion.}, label = {lst:convert}]{Implementation/convert.cpp}
+
+%%%%% texture %%%%%
+\subsection{Spherical Texture Lookup}
+Further we needed to implement a function which returns coordinates in a spherical textures by converting direction from which the environment should be sampled. This is done in Listing \autoref{lst:project}.
+\lstinputlisting[caption = {Conversion to texture coordinates}, label = {lst:project}]{Implementation/projectDirection.cpp}
+
+In the end we could modify our shader code to include the contribution coming from the lookup in the spherical texture as shown in Listing \autoref{lst:convert}.
+\lstinputlisting[caption = {RGBE to RGBA conversion.}, label = {lst:convert}]{Implementation/environment.cpp}
+

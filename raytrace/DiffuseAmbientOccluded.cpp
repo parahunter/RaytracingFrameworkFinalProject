@@ -8,34 +8,20 @@
 
 optix::float3 DiffuseAmbientOccluded::shade(const optix::Ray& r, HitInfo& hit, bool emit) const
 {
-	return doWeightedCosineSamplingWithEnvironmentSampling(r, hit, emit);
+	// return DiffuseAmbientOccluded::doWeightedCosineSampling(r, hit, emit);
+	return DiffuseAmbientOccluded::doRejectionSampling(r, hit, emit);
+	// return doWeightedCosineSamplingWithEnvironmentSampling(r, hit, emit);
 }
 
 optix::float3 DiffuseAmbientOccluded::doRejectionSampling(const optix::Ray& r, HitInfo& hit, bool emit) const
 {
-	/*
-	For each triangle {
-  Compute center of triangle
-  Generate set of rays over the hemisphere there
-  Vector avgUnoccluded = Vector(0, 0, 0);
-  int numUnoccluded = 0;
-  For each ray {
-    If (ray doesn't intersect anything) {
-      avgUnoccluded += ray.direction;
-      ++numUnoccluded;
-    }
-  }
-  avgUnoccluded = normalize(avgUnoccluded);
-  accessibility = numUnoccluded / numRays;
-
-*/
 	float3 rho_a = get_emission(hit);
 	float3 rho_d = get_diffuse(hit);
 
 	float3 avgUoccluded = make_float3(0,0,0);
 	int numOfUnoccluded = 0;
 
-	int numOfRays = 20;
+	int numOfRays = 200;
 	for(int i = 0 ; i < numOfRays ; i++)
 	{
 		Ray hemiRay = r;
@@ -52,7 +38,7 @@ optix::float3 DiffuseAmbientOccluded::doRejectionSampling(const optix::Ray& r, H
 
 	//return make_float3(dot(hit.shading_normal, averageNormal));
 	
-	return M_1_PIf * accessability * rho_a;// + Lambertian::shade(r, hit, emit);// + Emission::shade(r, hit, emit);
+	return M_1_PIf * accessability * rho_d;// + Emission::shade(r, hit, emit);// + Lambertian::shade(r, hit, emit);// 
 
 }
 
@@ -81,7 +67,7 @@ optix::float3 DiffuseAmbientOccluded::doWeightedCosineSampling(const optix::Ray&
 
 	//return make_float3(dot(hit.shading_normal, averageNormal));
 	
-	return accessability * rho_d * render_engine.get_background_color();// + Lambertian::shade(r, hit, emit);// + Emission::shade(r, hit, emit);
+	return M_1_PIf * accessability * rho_d;// * render_engine.get_background_color();// + Lambertian::shade(r, hit, emit);// + Emission::shade(r, hit, emit);
 }
 
 optix::float3 DiffuseAmbientOccluded::doWeightedCosineSamplingWithEnvironmentSampling(const optix::Ray& r, HitInfo& hit, bool emit) const
