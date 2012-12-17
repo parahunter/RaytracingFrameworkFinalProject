@@ -49,7 +49,7 @@ RenderEngine::RenderEngine()
     filename("out.ppm"),                                     // Default output file name
     tracer(res.x, res.y, &scene, 100000),                    // Maximum number of photons in map
     max_to_trace(500000),                                    // Maximum number of photons to trace
-    caustics_particles(0),                               // Desired number of caustics photons
+    caustics_particles(100000),                               // Desired number of caustics photons
     done(false), 
     light_pow(optix::make_float3(M_PIf)),                    // Power of the default light
     light_dir(optix::make_float3(-1.0f)),                    // Direction of the default light
@@ -95,7 +95,6 @@ void RenderEngine::load_files(int argc, char** argv)
       lower_case_string(filename);
       Matrix4x4 transform = Matrix4x4::identity();scene.add_plane(make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 1.0f, 0.0f), "../models/default_scene.mtl", 1, 0.02f);
     
-
       // Special rules for some meshes
       if(char_traits<char>::compare(filename.c_str(), "cornell", 7) == 0)
         transform = Matrix4x4::scale(make_float3(0.025f))*Matrix4x4::rotate(M_PIf, make_float3(0.0f, 1.0f, 0.0f));
@@ -113,8 +112,6 @@ void RenderEngine::load_files(int argc, char** argv)
   {
     // Insert default scene
 
-	scene.add_plane(make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 1.0f, 0.0f), "../models/default_scene.mtl", 1, 0.02f);
-    
 	//scene.add_plane(make_float3(0.0f, -10.0f, 0.0f), make_float3(0.0f, 1.0f, 0.0f), "../models/default_scene.mtl", 1, 0.02f);
     
 	//scene.add_sphere(make_float3(-4.0f, 0.5f, -4.0f), 0.3f, "../models/default_scene.mtl", 3);
@@ -135,7 +132,7 @@ void RenderEngine::load_files(int argc, char** argv)
 		offset += dist/2;
 	}
 	*/
-	
+	/*
 	for(int x = -2 ; x < 2 ;x++)
 	{
 		for(int y = -2 ; y < 2 ;y++)
@@ -144,8 +141,11 @@ void RenderEngine::load_files(int argc, char** argv)
 				 scene.add_sphere(make_float3(2.0f * x, 1.5f*z, 2.0f * y), 0.6f, "../models/default_scene.mtl", 3);
 		}
 	}
-	
-	/*
+	*/
+	//our scene
+    /*
+	scene.add_plane(make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 1.0f, 0.0f), "../models/default_scene.mtl", 1, 0.02f);
+    
 	for(int x = 0 ; x < 3 ;x++)
 	{
 		for(int y = 0 ; y < 3 ;y++)
@@ -153,22 +153,21 @@ void RenderEngine::load_files(int argc, char** argv)
 			float offset = -3;
 			 scene.add_sphere(make_float3(offset + 2.0f * x, 1.8f, offset + 2.0f * y), 0.6f, "../models/default_scene.mtl", 3);
 		}
-	}*/
-
-	//scene.add_triangle(make_float3(-0.2f, 0.1f, 0.9f), make_float3(0.2f, 0.1f, 0.9f), make_float3(-0.2f, 0.1f, -0.1f), "../models/default_scene.mtl", 3);
+	}
 	scene.add_light(new PointLight(&tracer, make_float3(100 * M_PIf), make_float3(0.0f, 10.0f, 0.0f)));
     
-	//cam.set(make_float3(0.0f,10.5f, 0.0f), make_float3(0.0f, 3.0f, 0.0f), make_float3(1.0f, 0.0f, 0.0f), 1.0f);
-	
 	cam.set(make_float3(7.5f, 4.5f, 7.0f), make_float3(0.0f, 3, 0.0f), make_float3(0.0f, 1.0f, 0.0f), 1.0f);
-	/*
+	*/
+
+	//scene.add_triangle(make_float3(-0.2f, 0.1f, 0.9f), make_float3(0.2f, 0.1f, 0.9f), make_float3(-0.2f, 0.1f, -0.1f), "../models/default_scene.mtl", 3);
+	
     scene.add_plane(make_float3(0.0f, 0.0f, 0.0f), make_float3(0.0f, 1.0f, 0.0f), "../models/default_scene.mtl", 1, 0.02f);
     scene.add_sphere(make_float3(0.0f, 0.5f, 0.0f), 0.3f, "../models/default_scene.mtl", 2);
     scene.add_triangle(make_float3(-0.2f, 0.1f, 0.9f), make_float3(0.2f, 0.1f, 0.9f), make_float3(-0.2f, 0.1f, -0.1f), "../models/default_scene.mtl", 3);
     scene.add_light(new PointLight(&tracer, make_float3(M_PIf), make_float3(0.0f, 1.0f, 0.0f)));
     
 	cam.set(make_float3(2.0f, 1.5f, 2.0f), make_float3(0.0f, 0.5, 0.0f), make_float3(0.0f, 1.0f, 0.0f), 1.0f);
-	*/
+	
   }
 }
 
