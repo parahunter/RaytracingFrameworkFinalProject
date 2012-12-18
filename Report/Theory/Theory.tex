@@ -1,5 +1,4 @@
 This section will explain the basic theory and concept behind Ambient Occlusion. The section will end with an explanation of how the math behind the technique is derived.
-
 \section{The Basic Concept}
 Ambient Occlusion works by seeing how much of an external envirornment can be seen from each surface point on the object or scene to be rendered. The more of the external envirornment that can be seen the more ambient lighting that point will recieve. This type of illumination is therefore often called "sky light" in production because it simulates how a model would be lighted on an overcast day since the light from ambient occlusion is incident on the point from all directions due to the scatering of the clouds.
 \\ \\
@@ -8,8 +7,9 @@ When ambient occlusion is calculated two factors are calculated. The first is th
 	\centering
 	\includegraphics[width=0.6\textwidth]{Theory/overview}
 	\label{fig:overview}
-	\caption{Overview of ambient occlusion. The accessibility at point P is determined by shooting rays out from the hemisphere surrounding the surface around P. The number of rays that does not hit other objects determines the accesibility. The average of the unoccluded rays is the bent normal that can be used to make a lookup into an envirornment map.}
+	\caption{Overview of ambient occlusion.}
 \end{figure}
+The accessibility at point P is determined by shooting rays out from the hemisphere surrounding the surface around P. The number of rays that does not hit other objects determines the accesibility. The average of the unoccluded rays is the bent normal that can be used to make a lookup into an envirornment map.
 \section{Mathemathical Foundation}
 Ambient Occlusion as all other realistic rendering methods tries to approximate the rendering equation:
 \[ 
@@ -94,7 +94,7 @@ A lightprobe is stored as a latitude longitude map as shown on figure \ref{fig:p
 	\centering
 	\includegraphics[width=0.4\textwidth]{Theory/example_probe}
 	\label{fig:probe}
-	\caption{Example of a light probe}
+	\caption{Example of a light probe from St Peter's Basilica, Rome. Source\cite{website:PaulDebevec}}
 \end{figure}
 \\ \\
 When sampling a light probe it is therefore necessary to convert the 3 dimensional direction of the bent normal into a set of uv coordinates. We will now derive how. Since it is custom to have the center of the lightmap be the upwards direction we get that the base of the uv coordinates should be:
@@ -115,17 +115,17 @@ r = \frac{arcos(-D_z)}{2\pi\sqrt{D_x^2 + D_y^2}}
 \] \[
 (u,v) = (\frac{1}{2}) + rD_x,\frac{1}{2}) + rD_y)
 \]
-Where D\textsubscript{x}, D\textsubscript{y} and D\textsubscript{z} is the lookup direction. Here it is assumed that the z-axis is upwards. One has also to take care of the event where Dx and Dy is close to zero when this function is implemented.
+Where D\textsubscript{x}, D\textsubscript{y} and D\textsubscript{z} is the lookup direction. Here it is assumed that the z-axis is upwards. One has also to take care of the event where Dx and Dy is close to zero when this function is implemented. \newpage
 \section{Disadvantages of Ambient Occlusion}
-The main problem with Ambient Occlusion is from the fact that it reduces the problem of finding incident light to using the calculated bent normal to do a texture lookup in an envirornment map. Since the bent normal is the average direction of incident light it can in certain cases point in a direction that is actually occluded as illustrated by figure:
+The main problem with Ambient Occlusion is from the fact that it reduces the problem of finding incident light to using the calculated bent normal to do a texture lookup in an envirornment map. Since the bent normal is the average direction of incident light it can in certain cases point in a direction that is actually occluded as illustrated by figure \ref{fig:bent_normal}.
 \\
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.6\textwidth]{Theory/bentNormalProblems}
+	\includegraphics[width=0.5\textwidth]{Theory/bentNormalProblems}
 	\label{fig:bent_normal}
 	\caption{The problem of using a bent normal Nb to find the irradiance at point P.}
 \end{figure}
-\\
+\\ 
 However since ambient occlusion is used to calculate the diffuse term the lookup into the envirornment map is usually blured which means this error is not so noticable.
 \\ \\
 The next section will cover our implementation of Ambient Occlusion.
