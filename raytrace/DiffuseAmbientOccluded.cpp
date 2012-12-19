@@ -8,8 +8,8 @@
 
 optix::float3 DiffuseAmbientOccluded::shade(const optix::Ray& r, HitInfo& hit, bool emit) const
 {
-	// return DiffuseAmbientOccluded::doWeightedCosineSampling(r, hit, emit);
-	return DiffuseAmbientOccluded::doRejectionSampling(r, hit, emit);
+	return DiffuseAmbientOccluded::doWeightedCosineSampling(r, hit, emit);
+	// return DiffuseAmbientOccluded::doRejectionSampling(r, hit, emit);
 	// return doWeightedCosineSamplingWithEnvironmentSampling(r, hit, emit);
 }
 
@@ -19,9 +19,9 @@ optix::float3 DiffuseAmbientOccluded::doRejectionSampling(const optix::Ray& r, H
 	float3 rho_d = get_diffuse(hit);
 
 	float3 avgUoccluded = make_float3(0,0,0);
-	int numOfUnoccluded = 0;
+	float numOfUnoccluded = 0;
 
-	int numOfRays = 200;
+	int numOfRays = 300;
 	for(int i = 0 ; i < numOfRays ; i++)
 	{
 		Ray hemiRay = r;
@@ -29,7 +29,7 @@ optix::float3 DiffuseAmbientOccluded::doRejectionSampling(const optix::Ray& r, H
 		if(sampleHemisphere(hemiRay, hemiHit, hit))
 		{
 			avgUoccluded += hemiRay.direction;
-			numOfUnoccluded++;
+			numOfUnoccluded += dot(hemiRay.direction, hit.shading_normal);
 		}
 	}
 
@@ -38,7 +38,7 @@ optix::float3 DiffuseAmbientOccluded::doRejectionSampling(const optix::Ray& r, H
 
 	//return make_float3(dot(hit.shading_normal, averageNormal));
 	
-	return M_1_PIf * accessability * rho_d;// + Emission::shade(r, hit, emit);// + Lambertian::shade(r, hit, emit);// 
+	return 2 * accessability * rho_d;// + Emission::shade(r, hit, emit);// + Lambertian::shade(r, hit, emit);// 
 
 }
 
@@ -50,7 +50,7 @@ optix::float3 DiffuseAmbientOccluded::doWeightedCosineSampling(const optix::Ray&
 	float3 avgUoccluded = make_float3(0,0,0);
 	int numOfUnoccluded = 0;
 
-	int numOfRays = 50;
+	int numOfRays = 300;
 	for(int i = 0 ; i < numOfRays ; i++)
 	{
 		Ray hemiRay = r;
@@ -67,7 +67,7 @@ optix::float3 DiffuseAmbientOccluded::doWeightedCosineSampling(const optix::Ray&
 
 	//return make_float3(dot(hit.shading_normal, averageNormal));
 	
-	return M_1_PIf * accessability * rho_d;// * render_engine.get_background_color();// + Lambertian::shade(r, hit, emit);// + Emission::shade(r, hit, emit);
+	return accessability * rho_d;// * render_engine.get_background_color();// + Lambertian::shade(r, hit, emit);// + Emission::shade(r, hit, emit);
 }
 
 optix::float3 DiffuseAmbientOccluded::doWeightedCosineSamplingWithEnvironmentSampling(const optix::Ray& r, HitInfo& hit, bool emit) const
@@ -78,7 +78,7 @@ optix::float3 DiffuseAmbientOccluded::doWeightedCosineSamplingWithEnvironmentSam
 	float3 avgUoccluded = make_float3(0,0,0);
 	int numOfUnoccluded = 0;
 
-	int numOfRays = 200;
+	int numOfRays = 100;
 	for(int i = 0 ; i < numOfRays ; i++)
 	{
 		Ray hemiRay = r;

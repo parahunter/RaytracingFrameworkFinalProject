@@ -40,6 +40,6 @@ void SphereTexture::project_direction(const float3& d, float& u, float& v) const
 
 	float r = .5 * M_1_PIf * acos(-d.z)/dxdy; 
 	
-	u = .5 + r * d.x;
-	v = .5 + r * d.y;
+	u = .5 - r * d.x;
+	v = .5 - r * d.y;
 }

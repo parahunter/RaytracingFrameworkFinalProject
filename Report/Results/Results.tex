@@ -1,6 +1,10 @@
 In the following chapter we will try to summarise the results we got from our ambient occlusion solution as well as compare the two implemented sampling methods and their efficiency with regard to the number of used samples.
+
 \section{Comparison of ambient occlusion results}
 This section contains comparison of results using rejection sampling (described in \autoref{sec:rejection_sampling}) to the use of cosine weighted hemisphere sampling (\autoref{sec:cosine_weighted}). The renders were run with 100, 200 and 300 sample rays and the results can be seen in \autoref{fig:AO_renders}.
+\newline
+
+The result clearly show that the cosine weighted hemisphere sampling performs much better than the simple rejection sampling. This may be accounted to higher efficiency of sampling the directions of rays.
 
 \begin{figure}[h!]
 	\centering
@@ -13,3 +17,30 @@ This section contains comparison of results using rejection sampling (described 
 	\caption{Comparison of sampling methods if different number of samples}
 	\label{fig:AO_renders}
 \end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\subfloat[100 samples, rejection sampling]{\includegraphics[width=.4\textwidth]{Results/rejection100_log.png}}
+    	\subfloat[100 samples, cosine weighted sampling]{\includegraphics[width=.4\textwidth]{Results/cosine100_log.png}}\\
+    	\subfloat[200 samples, rejection sampling]{\includegraphics[width=.4\textwidth]{Results/rejection200_log.png}}
+    	\subfloat[200 samples, cosine weighted sampling]{\includegraphics[width=.4\textwidth]{Results/cosine200_log.png}}\\
+	\subfloat[300 samples, rejection sampling]{\includegraphics[width=.4\textwidth]{Results/rejection300_log.png}}
+    	\subfloat[300 samples, cosine weighted sampling]{\includegraphics[width=.4\textwidth]{Results/cosine300_log.png}}\\
+	\caption{Render logs for the renders in \autoref{fig:AO_renders}.}
+	\label{fig:AO_logs}
+\end{figure}
+
+\section{HDR environment map}
+The final feature that we included in our ambient occlusion solution is environment mapping from HDR textures (as seen in \autoref{sec:environment_maps}). The renders in \autoref{fig:env_renders} use the cosine weighted hemisphere sampling method implemented in the previous chapter. 
+
+\begin{figure}[h!]
+	\centering
+	\subfloat[Render with Grace Cathedral texture.]{\includegraphics[width=.4\textwidth]{Results/hdr.png}}
+    	\subfloat[Render log.]{\includegraphics[width=.4\textwidth]{Results/hdr_log.png}}\\
+    	\subfloat[Render with Campus at Sunset texture.]{\includegraphics[width=.4\textwidth]{Results/hdr1.png}}
+    	\subfloat[Render log.]{\includegraphics[width=.4\textwidth]{Results/hdr1_log.png}}\\
+	\caption{Environment mapping results.}
+	\label{fig:env_renders}
+\end{figure}
+
+The HDR images used in renders in \autoref{fig:env_renders} come from \cite{website:PaulDebevec}
