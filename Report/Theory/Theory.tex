@@ -98,7 +98,6 @@ L_o(\textbf{x},\overrightarrow{w}) =
 Where V is equal to 1 if the direction is unoccluded and 0 otherwise. In a raytracer this is normally done by casting N rays with origin in the surface point being sampled with a cosine weighted random direction in the point's hemisphere, and divide the result by N. A similar approach is used to calculate the bent normal. This is the sampling method used in Landis' paper\cite{Landis2002} but other papers choose not to include the cosine term in the ambient occlusion integral to start with \cite{KRES2011}. Some also choose to let V return a value between 0 and 1 depending on the distance to the occluder where V returns 1 if the occluder being hit is farther away than a certain treshold \cite{McGuire:2010}. 
   
 \section{Envirornment maps \& High Dynamic Range Imaging}
-\label{sec:environment_maps}
 As mentioned earlier the bent normal can be used to do a lookup into an image. Most often this image comes in the form of a light probe, which is an omnidirectional image that stores incident light at a certain point in space. Since the human visual perception is able to detect a high range of luminosity values, a high dynamic range format such as RGBE is often used. In RGBE the fourth byte stores an exponential value used to modify the RGB value. This allows the format to have the same range as floating point values. This way it can handle both very bright and dark pixels. The formula for converting RGBE value is simply:
 \[
 R_w = \frac{R_m + 0.5}{256} 2^{E-128} \]\[
