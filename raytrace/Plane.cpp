@@ -51,7 +51,15 @@ bool Plane::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) const
 		if(material.has_texture)
 		{	
 			float3 vector = hit.position - position;
-			hit.texcoord = (vector.x * onb.m_tangent + vector.y * onb.m_binormal + vector.z * onb.m_normal) * tex_scale;	
+			
+			// to get a basis change matrix we need an inverse matrix of [tangent, binormal, normal]
+			// as the vectors in the basis are orthogonal, we can use transposed matrix instead
+
+			float3 transposed1 = make_float3(onb.m_tangent.x, onb.m_binormal.x, onb.m_normal.x);
+			float3 transposed2 = make_float3(onb.m_tangent.y, onb.m_binormal.y, onb.m_normal.y);
+			float3 transposed3 = make_float3(onb.m_tangent.z, onb.m_binormal.z, onb.m_normal.z);
+			
+			hit.texcoord = (vector.x * transposed1 + vector.y * transposed2 + vector.z * transposed3) * tex_scale;		
 		}
 
 		return true;

@@ -34,11 +34,11 @@ float3 Glossy::shade(const Ray& r, HitInfo& hit, bool emit) const
   if(hit.trace_depth >= max_depth)
     return make_float3(0.0f);
   
-  /*
+  
   float R;
   Ray reflected, refracted;
   HitInfo hit_reflected, hit_refracted;
-  *
+  
   //return Transparent::shade(r, hit, emit);
   
   tracer->trace_reflected(r, hit, reflected, hit_reflected);
