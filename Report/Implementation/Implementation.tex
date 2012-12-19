@@ -1,20 +1,36 @@
 \section{Ambient Occlusion Shader}
 To implement ambient occlussion in the ray tracing framework, it was necessary to create a new shader which can be found in  \texttt{Shaders\textbackslash{}DiffuseAmbientOccluded.cpp}. Later we implemented the functions that were needed to add support of HDR environment maps to our solution. This chapter will explain how different  methods needed to achieve it were implemented.  
+
 \subsection{Rejection Sampling}
-First, we implemented a basic ambient occlusion shader which uses simple rejection sampling to generate rays to be traced from each point. The function called in \texttt{DiffuseAmbientOccluded::shade()} can be seen in Listing 		\autoref{lst:rejection} while Listing \autoref{lst:sampleHemi} shows the function \texttt{sampleHemisphere} responsible for the rejection sampling itself.
+\label{sec:rejection_sampling}
+
+First, we implemented a basic ambient occlusion shader which uses simple rejection sampling to generate rays to be traced from each point. The function called in \texttt{DiffuseAmbientOccluded::shade()} can be seen in 	\autoref{lst:rejection} while \autoref{lst:sampleHemi} shows the function \texttt{sampleHemisphere} responsible for the rejection sampling itself.
+
 \lstinputlisting[caption = {Ambient occlusion shader with rejection sampling.}, label = {lst:rejection}]{Implementation/rejection.cpp}
-The function in Listing \autoref{lst:rejection} shoots a number of rays over the hemisphere as described in \cite{Gems17}. It calls the function from Listing \autoref{lst:sampleHemi} to sample directions on the hemisphere.
+
+The function in \autoref{lst:rejection} shoots a number of rays over the hemisphere as described in \cite{Gems17}. It calls the function from \autoref{lst:sampleHemi} to sample directions on the hemisphere.
+
 \lstinputlisting[caption = {Rejection sampling.}, label = {lst:sampleHemi}]{Implementation/sampleHemi.cpp}
+
 \subsection{Cosine Weighted Hemisphere}
-In order to improve performance and result of our solution we introduced the method of sampling ray directions from a cosine weighted hemisphere instead of the rejection sampling method used in the previous subsection. This provides a much more efficient way of generating rays distributed over a hemisphere and allows us to save computations. The relevant code is shown in Listing \autoref{lst:sampleCosine}.
+\label{sec:cosine_weighted}
+In order to improve performance and result of our solution we introduced the method of sampling ray directions from a cosine weighted hemisphere instead of the rejection sampling method used in the previous subsection. This provides a much more efficient way of generating rays distributed over a hemisphere and allows us to save computations. The relevant code is shown in \autoref{lst:sampleCosine}.
+
 \lstinputlisting[caption = {Cosine weighted hemisphere sampling}, label = {lst:sampleCosine}]{Implementation/sampleCosine.cpp}
+
 \section{Environment Sampling}
 The next part of our project is to add sampling of light from the envirornment in form of HDR light probes. To do this we had to extend the framework to handle conversion from RGBE to floating point RGB as well as implement the projection of direction to texture coordinates. Then we could use them in our ambient occlusion solution.
+
 \subsection{HDR Image Conversion}
-The first part focuses on conversion of RGBE format used in HDR images to floating point RGB. This is done with the function from Listing \autoref{lst:convert}.
+The first part focuses on conversion of RGBE format used in HDR images to floating point RGB. This is done with the function from \autoref{lst:convert}.
+
 \lstinputlisting[caption = {RGBE to RGBA conversion.}, label = {lst:convert}]{Implementation/convert.cpp}
+
 \subsection{Spherical Texture Lookup}
-Furthermore we needed to implement a function which returns coordinates in a spherical texture by converting direction from which the environment should be sampled to uv coordinates. This is done in Listing \autoref{lst:project}.
+Furthermore we needed to implement a function which returns coordinates in a spherical texture by converting direction from which the environment should be sampled to uv coordinates. This is done in \autoref{lst:project}.
+
 \lstinputlisting[caption = {Conversion to texture coordinates}, label = {lst:project}]{Implementation/projectDirection.cpp}
-In the end we could modify our shader code to include the contribution coming from the lookup in the spherical texture as shown in Listing \autoref{lst:convert}.
+
+In the end we could modify our shader code to include the contribution coming from the lookup in the spherical texture as shown in \autoref{lst:convert}.
+
 \lstinputlisting[caption = {RGBE to RGBA conversion.}, label = {lst:convert}]{Implementation/environment.cpp}
