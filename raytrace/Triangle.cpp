@@ -22,15 +22,54 @@ bool intersect_triangle(const Ray& ray,
   // with not implementing this function. However, I recommend that
   // you implement it for completeness.
 
+	//find sides of triangle
+	float3 e1 = v1 - v0;
+	float3 e2 = v2 - v0;
+
+	//find perpendicular vector between ray direction and one of the sides
+	float3 p = optix::cross(ray.direction, e2);
+
+	//take the dot product between this vector and the other side of the triangle
+	float a = dot(e1, p);
+
+	//if a is equal to zero then the ray is parallel with the triangle and no intersection ocurs
+	if(a == 0 || (a < 0.001f && a > -0.001f))
+	{
+		return false;
+	}
+
+	//compute denominator
+	float f = 1.0f/a;
+
+	//compute barycentric coordinates and check if they are within the accepted boundaries
+	float3 s = ray.origin - v0;
+	v = f * dot(s,p);
+
+	if(v < 0.0f || v > 1.0f)
+		return false;
+
+	float3 q = cross(s, e1);
+	w = f * dot(ray.direction, q);
+
+	if(w < 0.0f || w + v > 1.0f)
+		return false;
+
+	t = f * dot(e2,q);
+
+	//calculate normal
+	n = cross(e1, e2);
+
+	return true;
+
+	/*
 	if(optix::intersect_triangle(ray,v0,v1,v2,n,t,v,w))
 	{
 		n = optix::normalize(n);
 
 		return true;
 	}
-
- 
-  return false;
+	return false;
+	*/
 }
 
 bool Triangle::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) const
