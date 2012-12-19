@@ -40,12 +40,50 @@ tabsize=2}
 
 \titlespacing*{\chapter}{0pt}{-10pt}{20pt}
 \titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
-
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \setlength{\intextsep}{0pt} %to make wrapfigures beautiful
 \setlength{\oddsidemargin}{0.5cm}
 \setlength{\evensidemargin}{-0.5cm}
-
 \begin{document}
+\includepdf[pages=-,noautoscale]{renderingHandinTwo.pdf}
+\includepdf[pages=-,noautoscale]{renderingHandinTwo.pdf}
+\includepdf[pages=-,noautoscale]{renderingHandinWeek4.pdf}
+\includepdf[pages=-,noautoscale]{renderingHandinFour.pdf}
+\includepdf[pages=-,noautoscale]{report_7.pdf}
+\includepdf[pages=-,noautoscale]{report_10.pdf}
+\begin{titlepage}
+\begin{center}
+
+\textsc{\LARGE Technical University of Denmark}\\[1.5cm]
+
+\textsc{\Large 02562 - Introduction to Rendering}\\[0.5cm]
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries Ambient Occlusion \& Envirornment Mapping}\\[0.4cm]
+\HRule \\[1.5cm]
+% Author and supervisor
+\begin{center}
+\emph{Authors:}\\
+\end{center}
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+Alexander \textsc{Birke}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+Jakub \textsc{Dutkowski}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+
+\end{center}
+
+\end{titlepage}
 
 \tableofcontents
 \chapter{Motivation}
