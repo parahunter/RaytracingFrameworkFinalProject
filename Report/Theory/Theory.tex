@@ -35,6 +35,7 @@ Then the expression becomes:
 \[ 
 L_o(\textbf{x},\overrightarrow{w}) = 
 L_e(\textbf{x},\overrightarrow{w}) +
+\frac{1}{N}
 \sum_{i=1}^N \frac{ 
 \frac{R_d}{\pi}L_i(\textbf{x},\overrightarrow{w}')\cos\theta
 }
@@ -42,7 +43,28 @@ L_e(\textbf{x},\overrightarrow{w}) +
 pdf(\overrightarrow{w}_i')
 }
 \]
-This expression can be evaluated directly by rejection sampling. However a better approach would be to simplify the expression even more. A good probability density function would therefore be\cite{Dutre2001}:
+This expression can be evaluated directly by rejection sampling the hemisphere. Since the probability density function for this sampling method is\cite{Dutre2001}:
+\[
+PDF : p(\Theta) = \frac{1}{2\pi}
+\]
+This means the above Monte Carlo Estimator end up being:
+\[ 
+L_o(\textbf{x},\overrightarrow{w}) = 
+L_e(\textbf{x},\overrightarrow{w}) +
+\frac{1}{N}
+\sum_{i=1}^N \frac{ 
+\frac{R_d}{\pi}L_i(\textbf{x},\overrightarrow{w}')\cos\theta
+}
+{
+pdf(\frac{1}{2\pi})
+}
+\]
+
+\[ 
+L_o(\textbf{x},\overrightarrow{w}) = 
+L_e(\textbf{x},\overrightarrow{w}) + \frac{2}{N} R_d \sum_{i=1}^N L_i(\textbf{x},\overrightarrow{w}')\cos\theta
+\]
+However a better approach would be to simplify the expression even more. A good probability density function would therefore be\cite{Dutre2001}:
 \[
 pdf((\overrightarrow{w}_i')) = cos\theta / \pi
 \]
