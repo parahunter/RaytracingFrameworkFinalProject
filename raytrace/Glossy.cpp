@@ -38,19 +38,19 @@ float3 Glossy::shade(const Ray& r, HitInfo& hit, bool emit) const
   float R;
   Ray reflected, refracted;
   HitInfo hit_reflected, hit_refracted;
-  */
-  return Transparent::shade(r, hit, emit);
-  /*
+  *
+  //return Transparent::shade(r, hit, emit);
+  
   tracer->trace_reflected(r, hit, reflected, hit_reflected);
   tracer->trace_refracted(r, hit, refracted, hit_refracted, R);
 
   //return Mirror::shade(r, hit, emit);
   //return Transparent::shade(r, hit, emit);
   //return Phong::shade(r, hit, emit);
-
-  return Phong::shade(r, hit, emit) + 
-	     0.5f*shade_new_ray(reflected, hit_reflected) + 
-		 0.5f* shade_new_ray(refracted, hit_refracted);
-  */
+  
+  return 0.1f*Phong::shade(r, hit, emit) + 
+	     0.1f*shade_new_ray(reflected, hit_reflected) + 
+		 0.9f* shade_new_ray(refracted, hit_refracted);
+  
   //return Phong::shade(r, hit, emit);
 }

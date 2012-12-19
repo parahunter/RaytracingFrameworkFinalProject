@@ -51,11 +51,9 @@ float3 Phong::shade(const Ray& r, HitInfo& hit, bool emit) const
 		  float3 R = optix::reflect(-dir,hit.shading_normal);
 		  unsigned int sInt = (int)s;
 		  
-		  result += rho_d*L*optix::dot(hit.shading_normal, dir) + rho_s*L* int_pow(optix::dot(R, -r.direction), sInt);
+			  result += rho_d*L* optix::fmaxf(optix::dot(hit.shading_normal, dir), 0) + rho_s*L* int_pow(optix::fmaxf( optix::dot(R, -r.direction), 0), sInt);
 
 	  }
-
-	  
 	//return Lambertian::shade(r, hit, emit);
   }
 

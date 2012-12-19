@@ -25,7 +25,7 @@ bool RayTracer::trace_reflected(const Ray& in, const HitInfo& in_hit, Ray& out, 
   // Hint: (a) There is a reflect function available in the OptiX math library.
   //       (b) Set out_hit.ray_ior and out_hit.trace_depth.
   
-	float3 reflectedDir = optix::reflect(in.direction, in_hit.geometric_normal);
+	float3 reflectedDir = optix::reflect(in.direction, in_hit.shading_normal);
 
 	out = Ray(in_hit.position, reflectedDir, 0, 0.01f);
     
@@ -117,7 +117,7 @@ bool RayTracer::trace_refracted(const Ray& in, const HitInfo& in_hit, Ray& out, 
 		out.direction = refractedDirection;
 		out.origin = in_hit.position;
 		out.tmin = 0.001f;
-		out.tmax = 99999;
+		out.tmax = RT_DEFAULT_MAX;
 		
 		double cos_theta1 = inTheta;
 	    double cos_theta2 = optix::dot( refractedDirection, -outNormal);

@@ -35,6 +35,8 @@ float3 Lambertian::shade(const Ray& r, HitInfo& hit, bool emit) const
   //
   // Hint: Call the sample function associated with each light in the scene.
 
+  float3 lambertianBRDF = rho_d * M_1_PIf;
+
   for(int i = 0 ; i < lights.size() ; i++)
   {
 	  float3 Li;
@@ -42,7 +44,7 @@ float3 Lambertian::shade(const Ray& r, HitInfo& hit, bool emit) const
 
 	  if(lights[i]->sample(hit.position, dir, Li))
 	  {
-		  result += (rho_d / M_PIf) * Li * optix::dot(dir, hit.shading_normal);
+		  result += lambertianBRDF * Li * optix::dot(dir, hit.shading_normal);
 	  }
   }
 
