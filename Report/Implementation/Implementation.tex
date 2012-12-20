@@ -4,7 +4,7 @@ To implement ambient occlussion in the ray tracing framework, it was necessary t
 \subsection{Rejection Sampling}
 \label{sec:rejection_sampling}
 
-First, we implemented a basic ambient occlusion shader which uses simple rejection sampling to generate rays to be traced from each point. The function called in \texttt{DiffuseAmbientOccluded::shade()} can be seen in 	\autoref{lst:rejection} while \autoref{lst:sampleHemi} shows the function \texttt{sampleHemisphere} responsible for the rejection sampling itself.
+First, we implemented a basic ambient occlusion shader which uses simple rejection sampling to generate rays to be traced from each point. The function called in \texttt{Diffuse AmbientOccluded::shade()} can be seen in 	\autoref{lst:rejection} while \autoref{lst:sampleHemi} shows the function \texttt{sampleHemisphere} responsible for the rejection sampling itself.
 
 \lstinputlisting[caption = {Ambient occlusion shader with rejection sampling.}, label = {lst:rejection}]{Implementation/rejection.cpp}
 
